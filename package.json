@@ -1,0 +1,16 @@
+{
+  "name": "easing",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "test": "tap --esm -Rspec --no-coverage test.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "tap": "^14.11.0"
+  }
+}
