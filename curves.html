@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Easing Curves</title>
+</head>
+<body>
+  <script type="module">
+    import { lerp, quadEase, cubicEase } from './index.js';
+    const size = 256;
+    const html = s => {
+      let el = document.createElement('div');
+      el.innerHTML = s;
+      append(el);
+    }
+    const append = s => document.body.append(s);
+
+    const yscale = n => lerp(size * .9, size * .1, n);
+    const xscale = n => lerp(size * .1, size * .9, n);
+
+    function draw(size, easing) {
+      let canvas = document.createElement('canvas');
+      canvas.width = canvas.height = size;
+      let ctx = canvas.getContext('2d');
+      ctx.fillStyle = 'rgba(0,0,0,.1)';
+      ctx.fillRect(size * .1, size * .1, size * .8, size * .8);
+      ctx.moveTo(xscale(0), yscale(0));
+      for (let i = 0; i < size; i++) {
+        let t = i / size;
+        let n = easing(t);
+        ctx.lineTo(xscale(t), yscale(n));
+      }
+      ctx.stroke();
+      return canvas;
+    }
+
+    html('<h1>linear</h1>');
+    append(draw(size, n => n));
+
+    html('<h1>quad(.75)</h1>');
+    append(draw(size, n => quadEase(0, .75, 1, n)));
+
+    html('<h1>cubic(.1,.9)</h1>');
+    append(draw(size, n => cubicEase(0, .1, .9, 1, n)));
+  </script>
+</body>
+</html>

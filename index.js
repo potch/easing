@@ -10,20 +10,21 @@ export const lerp = (a, b, t) => a + (b - a) * t;
 export const ilerp = (a, b, n) => (n - a) / (b - a);
 
 // clamp n to the range (a..b)
-export const clamp = (a, b, n) => Math.max(a, Math.min(t, b));
+export const clamp = (a, b, n) => Math.max(a, Math.min(n, b));
 
 // transform (a..b) in n to (c..d)
 export const scale = (a, b, c, d, n) => lerp(c, d, ilerp(a, b, n));
 
 // reduced quadratic bezier
 // unreduced is lerp(lerp(a, b, t), lerp(b, c, t), t)
-/*
-  A + (B - A) * t
-  (a + (b - a) * t) + ((b + (c - b) * t) - (a + (b - a) * t)) * t
-  (a + bt - at) + ((b + ct - bt) - (a + bt - at)) * t
-  a + bt - at + (b + ct - bt - a - bt + at) * t
-  a + bt - at + bt + ct2 - at - bt2 + at2
-  at2 - bt2 + ct2 - 2at + 2bt + a
-  (a - b + c) * t2 + 2(b - a)t + a
-*/
-export const quadEase = (a, b, c, t) => ((a - b + c) * t + (b - a) * 2) * t + a;
+export const quadEase = (a, b, c, t) => ((a - 2 * b + c) * t + (b - a) * 2) * t + a;
+
+// reduced cubic bezier
+// based on basis functions for cubic beziers
+export const cubicEase = (a, b, c, d, t) => {
+  let u = 1 - t;
+  return a * u * u * u + 
+         b * 3 * u * u * t +
+         c * 3 * u * t * t +
+         d * t * t * t;
+}
